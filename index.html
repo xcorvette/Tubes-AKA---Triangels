@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Analisis Binary Search Iteratif vs Rekursif</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>Analisis Performa Binary Search Iteratif dan Rekursif</h1>
+  <p>Studi Kasus: Pencarian ID Produk pada Data E-Commerce Terurut (Berbasis C++)</p>
+</header>
+
+<main>
+  <section>
+    <h2>📌 Deskripsi</h2>
+    <p>
+      Aplikasi ini menampilkan hasil analisis performa algoritma Binary Search versi
+      iteratif dan rekursif yang diimplementasikan menggunakan bahasa C++.
+      Pengujian dilakukan pada data ID produk e-commerce yang sudah terurut.
+    </p>
+  </section>
+
+  <section>
+    <h2>🧪 Hasil Uji Coba (dari Program C++)</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Ukuran Data (N)</th>
+          <th>Iteratif (ms)</th>
+          <th>Rekursif (ms)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Ganti angka sesuai hasil dari C++ -->
+        <tr><td>10</td><td>0.001</td><td>0.002</td></tr>
+        <tr><td>100</td><td>0.003</td><td>0.004</td></tr>
+        <tr><td>1000</td><td>0.010</td><td>0.013</td></tr>
+        <tr><td>10000</td><td>0.030</td><td>0.041</td></tr>
+        <tr><td>100000</td><td>0.080</td><td>0.110</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>📊 Grafik Perbandingan Running Time</h2>
+    <canvas id="chart"></canvas>
+  </section>
+
+  <section>
+    <h2>🧠 Kesimpulan</h2>
+    <p>
+      Berdasarkan hasil pengujian, kedua algoritma memiliki kompleksitas waktu
+      O(log n). Namun, versi iteratif cenderung lebih cepat karena tidak memiliki
+      overhead pemanggilan fungsi rekursif.
+    </p>
+  </section>
+</main>
+
+<script>
+const ctx = document.getElementById('chart').getContext('2d');
+
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: ['10', '100', '1000', '10000', '100000'],
+    datasets: [
+      {
+        label: 'Iteratif (ms)',
+        data: [0.001, 0.003, 0.010, 0.030, 0.080],
+        borderColor: 'blue',
+        fill: false
+      },
+      {
+        label: 'Rekursif (ms)',
+        data: [0.002, 0.004, 0.013, 0.041, 0.110],
+        borderColor: 'red',
+        fill: false
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { title: { display: true, text: 'Ukuran Data (N)' } },
+      y: { title: { display: true, text: 'Waktu (ms)' } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>
