@@ -4,44 +4,45 @@
     <meta charset="UTF-8">
     <title>Analisis Binary Search Iteratif vs Rekursif</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <div class="container">
+        <h1>Analisis Performa Binary Search Iteratif dan Rekursif</h1>
+        <h3>Studi Kasus: Pencarian ID Produk pada Data E-Commerce Terurut (Berbasis C++)</h3>
 
-<div class="container">
-    <h1>Analisis Performa Binary Search Iteratif dan Rekursif</h1>
-    <h3>Studi Kasus: Pencarian ID Produk pada Data E-Commerce Terurut (Berbasis C++)</h3>
+        <!-- 1. Uji Coba Pencarian -->
+        <div class="card">
+            <h2>1. Uji Coba Pencarian</h2>
 
-    <section class="card">
-        <h2>1. Uji Coba Pencarian</h2>
+            <div class="form">
+                <input type="number" id="target" placeholder="Masukkan ID produk (0 - 999999)">
+                <select id="algo">
+                    <option value="iterative">Iteratif</option>
+                    <option value="recursive">Rekursif</option>
+                </select>
+                <button onclick="searchProduct()">Cari</button>
+            </div>
 
-        <div class="form">
-            <input type="number" id="productId" placeholder="Masukkan ID Produk">
-            
-            <select id="algorithm">
-                <option value="iterative">Iteratif</option>
-                <option value="recursive">Rekursif</option>
-            </select>
-
-            <button onclick="search()">Cari</button>
+            <div class="result">
+                <p>Hasil:</p>
+                <p>Index : <span id="resIndex">...</span></p>
+                <p>Langkah : <span id="resSteps">...</span></p>
+                <p>Waktu : <span id="resTime">...</span></p>
+            </div>
         </div>
 
-        <div class="result">
-            <h3>Hasil:</h3>
-            <p>Index   : <span id="resIndex">...</span></p>
-            <p>Langkah : <span id="resSteps">...</span></p>
-            <p>Waktu   : <span id="resTime">...</span> ms</p>
+        <!-- 2. Benchmark -->
+        <div class="card">
+            <h2>2. Analisis Running Time (Benchmark)</h2>
+            <p>Uji performa pada berbagai ukuran data dan tampilkan grafik perbandingan.</p>
+            <button onclick="runBenchmark()">Jalankan Benchmark & Buat Grafik</button>
+
+            <canvas id="chart" width="400" height="200"></canvas>
         </div>
-    </section>
+    </div>
 
-    <section class="card">
-        <h2>2. Analisis Running Time (Benchmark)</h2>
-        <p>Uji performa pada berbagai ukuran data dan tampilkan grafik perbandingan.</p>
-        <button onclick="runBenchmark()">Jalankan Benchmark & Buat Grafik</button>
-
-        <canvas id="chart" width="600" height="300"></canvas>
-    </section>
-</div>
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
