@@ -2,48 +2,26 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Analisis Binary Search</title>
+  <title>Analisis Binary Search C++</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>Binary Search Iteratif vs Rekursif</h2>
-  <p>Data: [10, 20, 30, 40, 50, 60, 70]</p>
+  <h1>Analisis Performa Binary Search Iteratif dan Rekursif</h1>
+  <p>Studi Kasus: Pencarian ID Produk E-Commerce Terurut</p>
 
-  <input id="key" type="number" placeholder="Masukkan angka">
-  <button onclick="run()">Cari</button>
+  <h3>Implementasi</h3>
+  <p>Algoritma diimplementasikan menggunakan bahasa <b>C++</b> sebagai aplikasi desktop.</p>
 
-  <pre id="out"></pre>
+  <h3>Langkah Pengujian</h3>
+  <ul>
+    <li>Generate data produk terurut</li>
+    <li>Uji Binary Search Iteratif</li>
+    <li>Uji Binary Search Rekursif</li>
+    <li>Catat steps dan waktu</li>
+  </ul>
 
-  <script>
-    const data = [10,20,30,40,50,60,70];
+  <h3>Hasil & Grafik</h3>
+  <p>(Masukkan screenshot / grafik hasil dari program C++)</p>
 
-    function iter(arr, key){
-      let l=0, r=arr.length-1, s=0;
-      while(l<=r){
-        s++;
-        let m=Math.floor((l+r)/2);
-        if(arr[m]==key) return {i:m, s:s};
-        if(arr[m]<key) l=m+1; else r=m-1;
-      }
-      return {i:-1, s:s};
-    }
-
-    function rec(arr, l, r, key, s=0){
-      if(l>r) return {i:-1, s:s};
-      s++;
-      let m=Math.floor((l+r)/2);
-      if(arr[m]==key) return {i:m, s:s};
-      if(arr[m]<key) return rec(arr, m+1, r, key, s);
-      return rec(arr, l, m-1, key, s);
-    }
-
-    function run(){
-      const key = parseInt(document.getElementById("key").value);
-      const a = iter(data, key);
-      const b = rec(data, 0, data.length-1, key);
-      document.getElementById("out").textContent =
-        `Iteratif : index=${a.i}, steps=${a.s}\n`+
-        `Rekursif : index=${b.i}, steps=${b.s}`;
-    }
-  </script>
 </body>
 </html>
