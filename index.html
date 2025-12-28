@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Analisis Binary Search Iteratif vs Rekursif</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>Analisis Performa Binary Search Iteratif dan Rekursif</h1>
+  <p>Studi Kasus: Pencarian ID Produk pada Data E-Commerce Terurut (Berbasis C++)</p>
+</header>
+
+<main>
+
+  <!-- Deskripsi -->
+  <section>
+    <h2>Deskripsi</h2>
+    <p>
+      Halaman ini menampilkan hasil analisis performa algoritma Binary Search
+      iteratif dan rekursif yang diimplementasikan menggunakan bahasa C++.
+      Data yang digunakan berupa ID produk e-commerce yang telah terurut.
+    </p>
+  </section>
+
+  <!-- Uji coba manual -->
+  <section>
+    <h2>Uji Coba Pencarian (Input dari Program C++)</h2>
+    <div class="form">
+      <input type="number" id="inputId" placeholder="ID Produk">
+      <input type="number" id="inputIndex" placeholder="Index">
+      <input type="number" id="inputSteps" placeholder="Langkah">
+      <input type="number" step="any" id="inputTime" placeholder="Waktu (ms)">
+      <select id="inputAlgo">
+        <option value="Iteratif">Iteratif</option>
+        <option value="Rekursif">Rekursif</option>
+      </select>
+      <button onclick="addSearchResult()">Tambah Hasil</button>
+    </div>
+
+    <pre id="searchResult">
+Hasil akan tampil di sini...
+    </pre>
+  </section>
+
+  <!-- Tabel -->
+  <section>
+    <h2>Hasil Uji Coba</h2>
+    <table id="resultTable">
+      <thead>
+        <tr>
+          <th>ID Produk</th>
+          <th>Algoritma</th>
+          <th>Index</th>
+          <th>Langkah</th>
+          <th>Waktu (ms)</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <!-- Grafik -->
+  <section>
+    <h2>Grafik Perbandingan Running Time</h2>
+    <canvas id="chart"></canvas>
+  </section>
+
+  <!-- Kesimpulan -->
+  <section>
+    <h2>Kesimpulan</h2>
+    <p>
+      Berdasarkan hasil pengujian dari program C++, kedua algoritma Binary Search
+      memiliki kompleksitas waktu O(log n). Namun, algoritma iteratif cenderung
+      memiliki waktu eksekusi lebih cepat dibandingkan rekursif karena tidak
+      memiliki overhead pemanggilan fungsi.
+    </p>
+  </section>
+
+</main>
+
+<script>
+let labels = [];
+let iterData = [];
+let recData = [];
+
+const ctx = document.getElementById('chart').getContext('2d');
+const chart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: labels,
+    datasets: [
+      { label: 'Iteratif (ms)', data: iterData, borderColor: 'blue', fill: false },
+      { label: 'Rekursif (ms)', data: recData, borderColor: 'red', fill: false }
+    ]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { title: { display: true, text: 'Percobaan' } },
+      y: { title: { display: true, text: 'Waktu (ms)' } }
+    }
+  }
+});
+
+function addSearchResult() {
+  const id = document.getElementById('inputId').value;
+  const idx = document.getElementById('inputIndex').value;
+  const steps = document.getElementById('inputSteps').value;
+  const time = document.getElementById('inputTime').value;
+  const algo = document.getElementById('inputAlgo').value;
+
+  if (!id || !idx || !steps || !time) {
+    alert("Lengkapi semua input!");
+    return;
+  }
+
+  const resultText =
+`Hasil:
+ID Produk : ${id}
+Algoritma : ${algo}
+Index     : ${idx}
+Langkah   : ${steps}
+Waktu     : ${time} ms`;
+
+  document.getElementById('searchResult').textContent = resultText;
+
+  const table = document.getElementById('resultTable').querySelector('tbody');
+  const row = table.insertRow();
+  row.insertCell(0).innerText = id;
+  row.insertCell(1).innerText = algo;
+  row.insertCell(2).innerText = idx;
+  row.insertCell(3).innerText = steps;
+  row.insertCell(4).innerText = time;
+
+  if (algo === "Iteratif") {
+    iterData.push(time);
+    recData.push(null);
+  } else {
+    recData.push(time);
+    iterData.push(null);
+  }
+  labels.push("Uji " + labels.length);
+  chart.update();
+}
+</script>
+
+</body>
+</html>
