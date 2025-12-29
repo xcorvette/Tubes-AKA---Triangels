@@ -61,12 +61,11 @@ Waktu: ... ms</pre>
   <h3>2. Analisis Running Time (Benchmark)</h3>
   <button onclick="runBenchmark()">Jalankan Benchmark & Buat Grafik</button>
 
-  <pre id="benchResult"></pre>
   <canvas id="benchChart" width="400" height="200"></canvas>
 </div>
 
+<!-- ================= SEARCH SCRIPT ================= -->
 <script>
-/* ================= SEARCH ================= */
 async function search() {
   const target = document.getElementById("target").value;
   const method = document.getElementById("method").value;
@@ -96,8 +95,10 @@ Waktu   : ${data.time} ms`;
       "Gagal mengambil data dari server";
   }
 }
+</script>
 
-/* ================= BENCHMARK + CHART ================= */
+<!-- ================= BENCHMARK + CHART SCRIPT ================= -->
+<script>
 let chart = null;
 
 async function runBenchmark() {
@@ -105,7 +106,6 @@ async function runBenchmark() {
     const res = await fetch("/benchmark");
     const data = await res.json();
 
-    let text = "Benchmark Result:\n\n";
     const labels = [];
     const iterTimes = [];
     const recTimes = [];
@@ -114,13 +114,7 @@ async function runBenchmark() {
       labels.push(d.n);
       iterTimes.push(d.iterative.time);
       recTimes.push(d.recursive.time);
-
-      text += `N = ${d.n}\n`;
-      text += ` Iteratif  : ${d.iterative.time} ms\n`;
-      text += ` Rekursif : ${d.recursive.time} ms\n\n`;
     });
-
-    document.getElementById("benchResult").textContent = text;
 
     const ctx = document.getElementById("benchChart").getContext("2d");
     if (chart) chart.destroy();
@@ -128,7 +122,7 @@ async function runBenchmark() {
     chart = new Chart(ctx, {
       type: "line",
       data: {
-        labels,
+        labels: labels,
         datasets: [
           {
             label: "Iteratif (ms)",
