@@ -61,23 +61,14 @@ Waktu: ... ms</pre>
 </div>
 
 <script>
-function search() {
-  const target = document.getElementById("target").value;
-  const method = document.getElementById("method").value;
-
-  };
-
-  const data = method === "iterative" ? json.iterative : json.recursive;
-
-  document.getElementById("result").textContent =
-`Index: ${data.index}
-Langkah: ${data.steps}
-Waktu: ${data.time} ms`;
-}
-<script>
 async function search() {
   const target = document.getElementById("target").value;
   const method = document.getElementById("method").value;
+
+  if (!target) {
+    alert("Masukkan ID dulu!");
+    return;
+  }
 
   try {
     const res = await fetch("/search", {
@@ -94,7 +85,8 @@ async function search() {
 Langkah: ${data.steps}
 Waktu: ${data.time} ms`;
   } catch (err) {
-    document.getElementById("result").textContent = "Gagal mengambil data";
+    console.error(err);
+    document.getElementById("result").textContent = "Gagal mengambil data dari server";
   }
 }
 </script>
