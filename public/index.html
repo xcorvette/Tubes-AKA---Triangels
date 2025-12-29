@@ -31,6 +31,7 @@
     pre {
       background: #eee;
       padding: 10px;
+      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -40,6 +41,7 @@
   <h2>Analisis Performa Binary Search</h2>
   <p>Studi Kasus: Pencarian ID Produk (C++)</p>
 
+  <!-- ================= SEARCH ================= -->
   <h3>1. Uji Coba Pencarian</h3>
   <input type="number" id="target" placeholder="Masukkan ID (1 - 100000)">
   <select id="method">
@@ -53,14 +55,18 @@
 Langkah: ...
 Waktu: ... ms</pre>
 
+  <!-- ================= BENCHMARK ================= -->
   <h3>2. Analisis Running Time (Benchmark)</h3>
-  <p>(Nanti diisi grafik)</p>
-  <button onclick="alert('Benchmark belum disambungkan')">
-    Jalankan Benchmark & Buat Grafik
+  <button onclick="runBenchmark()">
+    Jalankan Benchmark
   </button>
+
+  <h4>Hasil Benchmark:</h4>
+  <pre id="benchmarkResult">Klik tombol untuk menjalankan benchmark...</pre>
 </div>
 
 <script>
+/* ================= SEARCH ================= */
 async function search() {
   const target = document.getElementById("target").value;
   const method = document.getElementById("method").value;
@@ -81,12 +87,36 @@ async function search() {
     const data = json[method];
 
     document.getElementById("result").textContent =
-`Index: ${data.index}
-Langkah: ${data.steps}
-Waktu: ${data.time} ms`;
+`Index   : ${data.index}
+Langkah : ${data.steps}
+Waktu   : ${data.time} ms`;
   } catch (err) {
     console.error(err);
-    document.getElementById("result").textContent = "Gagal mengambil data dari server";
+    document.getElementById("result").textContent =
+      "Gagal mengambil data dari server";
+  }
+}
+
+/* ================= BENCHMARK ================= */
+async function runBenchmark() {
+  const out = document.getElementById("benchmarkResult");
+  out.textContent = "Menjalankan benchmark...\n";
+
+  try {
+    const res = await fetch("/benchmark");
+    const json = await res.json();
+
+    let text = "";
+    json.forEach(d => {
+      text += `N = ${d.n}\n`;
+      text += ` Iteratif  : ${d.iterative} ms\n`;
+      text += ` Rekursif : ${d.recursive} ms\n\n`;
+    });
+
+    out.textContent = text;
+  } catch (err) {
+    console.error(err);
+    out.textContent = "Gagal menjalankan benchmark dari server";
   }
 }
 </script>
