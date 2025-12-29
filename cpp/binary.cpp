@@ -5,7 +5,6 @@
 using namespace std;
 using namespace std::chrono;
 
-// Binary Search Iteratif
 int binarySearchIterative(const vector<long long>& arr, long long target, int &steps) {
     int left = 0, right = arr.size() - 1;
     steps = 0;
@@ -19,7 +18,6 @@ int binarySearchIterative(const vector<long long>& arr, long long target, int &s
     return -1;
 }
 
-// Binary Search Rekursif
 int binarySearchRecursive(const vector<long long>& arr, int left, int right, long long target, int &steps) {
     steps++;
     if (left > right) return -1;
@@ -31,17 +29,51 @@ int binarySearchRecursive(const vector<long long>& arr, int left, int right, lon
         return binarySearchRecursive(arr, left, mid - 1, target, steps);
 }
 
+double testIter(int N) {
+    vector<long long> data(N);
+    for (int i = 0; i < N; i++) data[i] = i + 1;
+    int steps = 0;
+    auto start = high_resolution_clock::now();
+    binarySearchIterative(data, N, steps);
+    auto end = high_resolution_clock::now();
+    return duration<double, milli>(end - start).count();
+}
+
+double testRec(int N) {
+    vector<long long> data(N);
+    for (int i = 0; i < N; i++) data[i] = i + 1;
+    int steps = 0;
+    auto start = high_resolution_clock::now();
+    binarySearchRecursive(data, 0, N - 1, N, steps);
+    auto end = high_resolution_clock::now();
+    return duration<double, milli>(end - start).count();
+}
+
 int main() {
+    long long target;
+    cin >> target;
+
+    cout << fixed << setprecision(6);
+
+    if (target == -1) {
+        vector<int> sizes = {1000, 5000, 10000, 50000, 100000};
+        cout << "{ \"benchmark\": [";
+        for (int i = 0; i < sizes.size(); i++) {
+            int N = sizes[i];
+            cout << "{"
+                 << "\"n\":" << N << ","
+                 << "\"iterative\":" << testIter(N) << ","
+                 << "\"recursive\":" << testRec(N) << "}";
+            if (i != sizes.size() - 1) cout << ",";
+        }
+        cout << "] }\n";
+        return 0;
+    }
+
+    // Mode search biasa
     const int N = 100000;
     vector<long long> data(N);
-    for (int i = 0; i < N; i++)
-        data[i] = i + 1;
-
-    long long target;
-    if (!(cin >> target)) {
-        cerr << "INPUT FAIL\n";
-        return 1;
-    }
+    for (int i = 0; i < N; i++) data[i] = i + 1;
 
     int stepsIter = 0, stepsRec = 0;
 
@@ -55,7 +87,6 @@ int main() {
     end = high_resolution_clock::now();
     double timeRec = duration<double, milli>(end - start).count();
 
-    cout << fixed << setprecision(6);
     cout << "{";
     cout << "\"iterative\":{"
          << "\"index\":" << idxIter << ","
