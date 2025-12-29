@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Analisis Binary Search</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -57,12 +59,10 @@ Waktu: ... ms</pre>
 
   <!-- ================= BENCHMARK ================= -->
   <h3>2. Analisis Running Time (Benchmark)</h3>
-  <button onclick="runBenchmark()">
-    Jalankan Benchmark
-  </button>
+  <button onclick="runBenchmark()">Jalankan Benchmark & Buat Grafik</button>
 
-  <h4>Hasil Benchmark:</h4>
-  <pre id="benchmarkResult">Klik tombol untuk menjalankan benchmark...</pre>
+  <pre id="benchResult"></pre>
+  <canvas id="benchChart" width="400" height="200"></canvas>
 </div>
 
 <script>
@@ -97,26 +97,71 @@ Waktu   : ${data.time} ms`;
   }
 }
 
-/* ================= BENCHMARK ================= */
-async function runBenchmark() {
-  const out = document.getElementById("benchmarkResult");
-  out.textContent = "Menjalankan benchmark...\n";
+/* ================= BENCHMARK + CHART ================= */
+let chart = null;
 
+async function runBenchmark() {
   try {
     const res = await fetch("/benchmark");
-    const json = await res.json();
+    const data = await res.json();
 
-    let text = "";
-    json.forEach(d => {
+    let text = "Benchmark Result:\n\n";
+    const labels = [];
+    const iterTimes = [];
+    const recTimes = [];
+
+    data.forEach(d => {
+      labels.push(d.n);
+      iterTimes.push(d.iterative.time);
+      recTimes.push(d.recursive.time);
+
       text += `N = ${d.n}\n`;
-      text += ` Iteratif  : ${d.iterative} ms\n`;
-      text += ` Rekursif : ${d.recursive} ms\n\n`;
+      text += ` Iteratif  : ${d.iterative.time} ms\n`;
+      text += ` Rekursif : ${d.recursive.time} ms\n\n`;
     });
 
-    out.textContent = text;
+    document.getElementById("benchResult").textContent = text;
+
+    const ctx = document.getElementById("benchChart").getContext("2d");
+    if (chart) chart.destroy();
+
+    chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Iteratif (ms)",
+            data: iterTimes,
+            borderColor: "blue",
+            fill: false
+          },
+          {
+            label: "Rekursif (ms)",
+            data: recTimes,
+            borderColor: "red",
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: "Perbandingan Running Time Binary Search"
+          }
+        },
+        scales: {
+          x: { title: { display: true, text: "Ukuran Input (N)" } },
+          y: { title: { display: true, text: "Waktu (ms)" } }
+        }
+      }
+    });
+
   } catch (err) {
+    alert("Gagal menjalankan benchmark");
     console.error(err);
-    out.textContent = "Gagal menjalankan benchmark dari server";
   }
 }
 </script>
