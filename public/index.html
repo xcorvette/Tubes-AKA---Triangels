@@ -99,66 +99,68 @@ Waktu   : ${data.time} ms`;
 
 <!-- ================= BENCHMARK + CHART SCRIPT ================= -->
 <script>
-  let chart = null;
-  
-  async function runBenchmark() {
-    try {
-      const res = await fetch("/benchmark");
-      const data = await res.json();
-  
-      const labels = [];
-      const iterTimes = [];
-      const recTimes = [];
-  
-      data.forEach(d => {
-        labels.push(d.n);
-        iterTimes.push(d.iterative);   // ✅ langsung angka
-        recTimes.push(d.recursive);   // ✅ langsung angka
-      });
-  
-      const ctx = document.getElementById("benchChart").getContext("2d");
-      if (chart) chart.destroy();
-  
-      chart = new Chart(ctx, {
-        type: "line",
-        data: {
-          labels,
-          datasets: [
-            {
-              label: "Iteratif (ms)",
-              data: iterTimes,
-              borderColor: "blue",
-              fill: false
-            },
-            {
-              label: "Rekursif (ms)",
-              data: recTimes,
-              borderColor: "red",
-              fill: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            title: {
-              display: true,
-              text: "Perbandingan Running Time Binary Search"
-            }
+let chart = null;
+
+async function runBenchmark() {
+  try {
+    const res = await fetch("/benchmark");
+    const data = await res.json();
+
+    console.log("Benchmark data:", data); // debug
+
+    const labels = [];
+    const iterTimes = [];
+    const recTimes = [];
+
+    data.forEach(d => {
+      labels.push(d.n);
+      iterTimes.push(d.iterative);
+      recTimes.push(d.recursive);
+    });
+
+    const ctx = document.getElementById("benchChart").getContext("2d");
+    if (chart) chart.destroy();
+
+    chart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Iteratif (ms)",
+            data: iterTimes,
+            borderColor: "blue",
+            fill: false
           },
-          scales: {
-            x: { title: { display: true, text: "Ukuran Input (N)" } },
-            y: { title: { display: true, text: "Waktu (ms)" } }
+          {
+            label: "Rekursif (ms)",
+            data: recTimes,
+            borderColor: "red",
+            fill: false
           }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: "Perbandingan Running Time Binary Search"
+          }
+        },
+        scales: {
+          x: { title: { display: true, text: "Ukuran Input (N)" } },
+          y: { title: { display: true, text: "Waktu (ms)" } }
         }
-      });
-  
-    } catch (err) {
-      alert("Gagal menjalankan benchmark");
-      console.error(err);
-    }
+      }
+    });
+
+  } catch (err) {
+    alert("Gagal menjalankan benchmark");
+    console.error(err);
   }
-  </script>  
+}
+</script>
 
 </body>
 </html>
