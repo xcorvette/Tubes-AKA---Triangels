@@ -1,0 +1,7 @@
+{
+    "name": "tubes-aka-triangels",
+    "version": "1.0.0",
+    "scripts": {
+      "start": "echo static"
+    }
+  }  

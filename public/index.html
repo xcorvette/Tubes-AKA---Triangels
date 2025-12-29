@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Analisis Binary Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 30px;
+    }
+    .box {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      padding: 8px;
+      margin: 5px 0;
+      width: 100%;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    pre {
+      background: #eee;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Analisis Performa Binary Search</h2>
+  <p>Studi Kasus: Pencarian ID Produk (C++)</p>
+
+  <h3>1. Uji Coba Pencarian</h3>
+  <input type="number" id="target" placeholder="Masukkan ID (1 - 100000)">
+  <select id="method">
+    <option value="iterative">Iteratif</option>
+    <option value="recursive">Rekursif</option>
+  </select>
+  <button onclick="search()">Cari</button>
+
+  <h4>Hasil:</h4>
+  <pre id="result">Index: ...
+Langkah: ...
+Waktu: ... ms</pre>
+
+  <h3>2. Analisis Running Time (Benchmark)</h3>
+  <p>(Nanti diisi grafik)</p>
+  <button onclick="alert('Benchmark belum disambungkan')">
+    Jalankan Benchmark & Buat Grafik
+  </button>
+</div>
+
+<script>
+function search() {
+  const target = document.getElementById("target").value;
+  const method = document.getElementById("method").value;
+
+  };
+
+  const data = method === "iterative" ? json.iterative : json.recursive;
+
+  document.getElementById("result").textContent =
+`Index: ${data.index}
+Langkah: ${data.steps}
+Waktu: ${data.time} ms`;
+}
+</script>
+
+</body>
+</html>
