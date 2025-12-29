@@ -32,9 +32,6 @@ int binarySearchRecursive(const vector<long long>& arr, int left, int right, lon
 }
 
 int main() {
-    cout << "START\n";
-    cout.flush();
-
     const int N = 100000;
     vector<long long> data(N);
     for (int i = 0; i < N; i++)
@@ -70,6 +67,5 @@ int main() {
          << "\"time\":" << timeRec << "}";
     cout << "}\n";
 
-    cout << "END\n";
     return 0;
 }

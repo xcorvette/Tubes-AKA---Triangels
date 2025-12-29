@@ -74,6 +74,29 @@ function search() {
 Langkah: ${data.steps}
 Waktu: ${data.time} ms`;
 }
+<script>
+async function search() {
+  const target = document.getElementById("target").value;
+  const method = document.getElementById("method").value;
+
+  try {
+    const res = await fetch("/search", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ target })
+    });
+
+    const json = await res.json();
+    const data = json[method];
+
+    document.getElementById("result").textContent =
+`Index: ${data.index}
+Langkah: ${data.steps}
+Waktu: ${data.time} ms`;
+  } catch (err) {
+    document.getElementById("result").textContent = "Gagal mengambil data";
+  }
+}
 </script>
 
 </body>
