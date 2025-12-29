@@ -9,7 +9,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const binPath = path.join(__dirname, "cpp", "binary");
 
-// 🔍 Endpoint search biasa
+// 🔍 Endpoint search
 app.post("/search", (req, res) => {
   const { target } = req.body;
 
@@ -27,7 +27,7 @@ app.post("/search", (req, res) => {
       const json = JSON.parse(stdout.trim());
       res.json(json);
     } catch (e) {
-      console.error("Output:", stdout);
+      console.error("Output search:", stdout);
       res.status(500).json({ error: "Output C++ bukan JSON valid" });
     }
   });
@@ -35,23 +35,24 @@ app.post("/search", (req, res) => {
 
 // 📊 Endpoint benchmark
 app.get("/benchmark", (req, res) => {
-  exec(`echo -1 | "${binPath}"`, (err, stdout, stderr) => {
-    if (err) {
-      console.error("Benchmark error:", stderr || err);
-      return res.status(500).json({ error: "Gagal menjalankan benchmark" });
-    }
-
-    try {
-      const json = JSON.parse(stdout.trim());
-      res.json(json.benchmark);
-    } catch (e) {
-      console.error("Output:", stdout);
-      res.status(500).json({ error: "Output benchmark bukan JSON valid" });
-    }
+    exec(`echo -1 | "${binPath}"`, (err, stdout, stderr) => {
+      if (err) {
+        console.error(stderr || err);
+        return res.status(500).json({ error: "Gagal menjalankan benchmark" });
+      }
+  
+      try {
+        const json = JSON.parse(stdout.trim());
+        res.json(json);   // ⬅️ langsung kirim array
+      } catch (e) {
+        console.error("Output:", stdout);
+        res.status(500).json({ error: "Output benchmark bukan JSON valid" });
+      }
+    });
   });
-});
+  
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`✅ Server jalan di http://localhost:${PORT}`);
+  console.log(`✅ Server jalan di port ${PORT}`);
 });

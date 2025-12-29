@@ -55,20 +55,23 @@ int main() {
 
     cout << fixed << setprecision(6);
 
-    if (target == -1) {
-        vector<int> sizes = {1000, 5000, 10000, 50000, 100000};
-        cout << "{ \"benchmark\": [";
-        for (int i = 0; i < sizes.size(); i++) {
-            int N = sizes[i];
-            cout << "{"
-                 << "\"n\":" << N << ","
-                 << "\"iterative\":" << testIter(N) << ","
-                 << "\"recursive\":" << testRec(N) << "}";
-            if (i != sizes.size() - 1) cout << ",";
-        }
-        cout << "] }\n";
-        return 0;
+if (target == -1) {
+    vector<int> sizes = {1000, 5000, 10000, 50000, 100000};
+
+    cout << "[";
+    for (int i = 0; i < sizes.size(); i++) {
+        int N = sizes[i];
+        cout << "{"
+             << "\"n\":" << N << ","
+             << "\"iterative\":" << testIter(N) << ","
+             << "\"recursive\":" << testRec(N)
+             << "}";
+        if (i != sizes.size() - 1) cout << ",";
     }
+    cout << "]\n";
+    return 0;
+}
+
 
     // Mode search biasa
     const int N = 100000;
