@@ -1,7 +1,13 @@
 {
     "name": "tubes-aka-triangels",
     "version": "1.0.0",
+    "main": "server.js",
     "scripts": {
-      "start": "echo static"
+      "build": "g++ cpp/binary.cpp -o cpp/binary",
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.18.2"
     }
-  }  
+  }
+  

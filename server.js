@@ -8,19 +8,16 @@ app.use(express.static("public"));
 
 app.post("/search", (req, res) => {
   const target = req.body.target;
-
-  const binPath = path.join(__dirname, "cpp", "binary"); // tanpa .exe
+  const binPath = path.join(__dirname, "cpp", "binary");
 
   exec(`echo ${target} | ${binPath}`, (err, stdout, stderr) => {
     if (err) {
       console.error(stderr || err);
       return res.status(500).json({ error: "Gagal menjalankan C++" });
     }
-
     try {
       res.json(JSON.parse(stdout.trim()));
-    } catch (e) {
-      console.error("Output:", stdout);
+    } catch {
       res.status(500).json({ error: "Output bukan JSON" });
     }
   });
